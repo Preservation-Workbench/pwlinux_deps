@@ -1,1 +1,1 @@
-Scripts to create portable dependency bundles for PWLinux
+Scripts to create dependency bundles for PWLinux
