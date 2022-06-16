@@ -93,7 +93,7 @@ sed -i -e 's/#user_allow_other/user_allow_other/' /etc/fuse.conf;
 recho $?
 
 cecho "CYAN" "Fix pdf permissions for ImageMagick.."
-if [ -f "   " ]; then
+if [ -f "/etc/ImageMagick-6/policy.xml" ]; then
     mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout  2>/dev/null;
 fi
 recho $?
@@ -109,8 +109,6 @@ if [ $(cat /home/$OWNER/.bashrc | grep -c "/bin/go/bin") -eq 0 ]; then
     sudo -H -u $OWNER bash -c "echo 'export GOPATH=/home/'"$OWNER"'/bin/go' >> /home/$OWNER/.bashrc";
     recho $?
 fi
-
-
 
 if [ $(fc-list | grep -c Calibri) -eq 0 ]; then
     cecho "CYAN" "Installing microsoft fonts.."
