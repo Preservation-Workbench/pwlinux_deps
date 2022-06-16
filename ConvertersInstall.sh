@@ -5,7 +5,6 @@ UPDATE=false
 # USERID=$(id -u $OWNER)
 # export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USERID/bus";
 
-
 cecho(){
     RED="\033[0;31m"
     GREEN="\033[0;32m"  # <-- [0 is not bold
@@ -23,6 +22,11 @@ recho(){
         exit 1
     fi
 }
+
+if [ "$EUID" -ne 0 ]; then 
+    cecho "RED" "Please run as root!"
+    exit
+fi
 
 DISTRO=$(lsb_release -sc) # Get codename. Supports uma, focal and jammy
 if [[ "${DISTRO}" != @(uma|focal|jammy) ]]; then
@@ -120,6 +124,5 @@ fi
 # cecho "CYAN" "Install or update python dependencies.."
 # sudo -H -u $OWNER bash -c "pip3 install pdfy cchardet petl ocrmypdf --upgrade;";
 # recho $?
-
-cd $SCRIPTPATH;
+# cd $SCRIPTPATH;
 
