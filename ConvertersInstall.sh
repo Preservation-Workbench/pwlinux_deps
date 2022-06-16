@@ -100,6 +100,8 @@ if [ -f "/etc/ImageMagick-6/policy.xml" ]; then
 fi
 
 cecho "CYAN" "Install or update Siegfried..";
+SFPATH=/home/$OWNER/bin/go/bin/sf
+sudo -H -u $OWNER bash -c "mkdir -p $SFPATH;";
 sudo -H -u $OWNER bash -c "export GOPATH=/home/$OWNER/bin/go && go get github.com/richardlehane/siegfried/cmd/sf";
 sudo -H -u $OWNER bash -c "/home/$OWNER/bin/go/bin/sf -update";
 recho $?;
