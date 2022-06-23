@@ -55,6 +55,14 @@ if [ $(cat /etc/apt/sources.list | grep -c "repos/CollaboraOnline/CODE-ubuntu") 
     if [[ $? -eq 0 ]]; then UPDATE=true; fi  
 fi
 
+if [ $(cat /etc/apt/sources.list | grep -c "https://www.itforarchivists.com/") -eq 0 ]; then    
+    cecho "CYAN" "Adding Siegfried repo..";
+    curl -sL "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x20F802FE798E6857" | gpg --dearmor > /usr/share/keyrings/siegfried-archive-keyring.gpg;
+    echo "deb [signed-by=/usr/share/keyrings/siegfried-archive-keyring.gpg] https://www.itforarchivists.com/ buster main" >> /etc/apt/sources.list;
+    recho $?;
+    if [[ $? -eq 0 ]]; then UPDATE=true; fi  
+fi
+
 if [[ "$UPDATE" = true ]]; then 
     cecho "CYAN" "Updating repo info..";
     apt-get update; 
@@ -67,7 +75,7 @@ apt-get install -y ttf-mscorefonts-installer pandoc abiword sqlite3 uchardet \
 python3-wheel dos2unix ghostscript onlyoffice-desktopeditors onlyoffice-documentbuilder \
 icc-profiles-free clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs \
 clamdscan libclamunrar9 wimtools wkhtmltopdf ruby-dev  imagemagick cabextract fontforge \
-python3-pgmagick graphicsmagick graphviz img2pdf golang coolwsd code-brand;
+python3-pgmagick graphicsmagick graphviz img2pdf golang coolwsd code-brand siegfried;
 recho $?;
 
 if [[ $UPDATE = true ]]; then 
@@ -96,20 +104,6 @@ recho $?;
 if [ -f "/etc/ImageMagick-6/policy.xml" ]; then
     cecho "CYAN" "Fix pdf permissions for ImageMagick.."
     mv /etc/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xmlout  2>/dev/null;
-    recho $?;
-fi
-
-cecho "CYAN" "Install or update Siegfried..";
-SFPATH=/home/$OWNER/bin/go/bin
-sudo -H -u $OWNER bash -c "mkdir -p $SFPATH;";
-sudo -H -u $OWNER bash -c "export GOPATH=/home/$OWNER/bin/go && go get github.com/richardlehane/siegfried/cmd/sf";
-sudo -H -u $OWNER bash -c "/home/$OWNER/bin/go/bin/sf -update";
-recho $?;
-
-if [ $(cat /home/$OWNER/.bashrc | grep -c "/bin/go/bin") -eq 0 ]; then
-    cecho "CYAN" "Configure go path..";
-    sudo -H -u $OWNER bash -c "echo 'export PATH=$PATH:/home/'"$OWNER"'/bin/go/bin' >> /home/$OWNER/.bashrc";
-    sudo -H -u $OWNER bash -c "echo 'export GOPATH=/home/'"$OWNER"'/bin/go' >> /home/$OWNER/.bashrc";
     recho $?;
 fi
 
