@@ -57,6 +57,7 @@ fi
 
 if [ $(cat /etc/apt/sources.list | grep -c "https://www.itforarchivists.com/") -eq 0 ]; then    
     cecho "CYAN" "Adding Siegfried repo..";
+    rm /etc/apt/sources.list.d/siegfried.list 2> /dev/null; # In case installed to separate source list
     curl -sL "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x20F802FE798E6857" | gpg --dearmor > /usr/share/keyrings/siegfried-archive-keyring.gpg;
     echo "deb [signed-by=/usr/share/keyrings/siegfried-archive-keyring.gpg] https://www.itforarchivists.com/ buster main" >> /etc/apt/sources.list;
     recho $?;
