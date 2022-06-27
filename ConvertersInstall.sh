@@ -37,10 +37,10 @@ dpkg -s ca-certificates 2>/dev/null >/dev/null || apt-get -y install ca-certific
 dpkg -s apt-transport-https 2>/dev/null >/dev/null || apt-get -y install apt-transport-https;
 recho $?;
 
-if [ $(cat /etc/apt/sources.list | grep -c "https://download.onlyoffice.com/repo/debian") -eq 0 ]; then
+if [ $(cat /etc/apt/sources.list | grep -c "http://download.onlyoffice.com/repo/debian") -eq 0 ]; then
     cecho "CYAN" "Adding Onlyoffice repo..";
     curl -sL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xe09ca29f6e178040ef22b4098320ca65cb2de8e5'| gpg --dearmor > /usr/share/keyrings/onlyoffice-keyring.gpg;
-    echo "deb http://download.onlyoffice.com/repo/debian squeeze main" >> /etc/apt/sources.list; 
+    echo "deb [signed-by=/usr/share/keyrings/onlyoffice-keyring.gpg] http://download.onlyoffice.com/repo/debian squeeze main" >> /etc/apt/sources.list; 
     recho $?;
     if [[ $? -eq 0 ]]; then UPDATE=true; fi  
 fi
@@ -57,7 +57,7 @@ if [ $(cat /etc/apt/sources.list | grep -c "repos/CollaboraOnline/CODE-ubuntu") 
     if [[ $? -eq 0 ]]; then UPDATE=true; fi  
 fi
 
-if [ $(cat /etc/apt/sources.list | grep -c "https://www.itforarchivists.com/") -eq 0 ]; then    
+if [ $(cat /etc/apt/sources.list | grep -c "http://www.itforarchivists.com/") -eq 0 ]; then    
     cecho "CYAN" "Adding Siegfried repo..";
     rm /etc/apt/sources.list.d/siegfried.list 2> /dev/null; # In case installed to separate source list
     curl -sL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x20F802FE798E6857' | gpg --dearmor > /usr/share/keyrings/siegfried-archive-keyring.gpg;
