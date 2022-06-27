@@ -51,7 +51,7 @@ if [ $(cat /etc/apt/sources.list | grep -c "repos/CollaboraOnline/CODE-ubuntu") 
     if [[ $DISTRO = jammy ]]; then CODE=2204; fi 
     wget https://collaboraoffice.com/downloads/gpg/collaboraonline-release-keyring.gpg -O /usr/share/keyrings/collaboraonline-release-keyring.gpg;
     # curl -sL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x0C54D189F4BA284D' | gpg --dearmor > /usr/share/keyrings/collabora-keyring.gpg;
-    echo "deb [signed-by=/usr/share/keyrings/siegfried-archive-keyring.gpg] http://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu${CODE} ./" >> /etc/apt/sources.list;
+    echo "deb [signed-by=/usr/share/keyrings/collaboraonline-release-keyring.gpg] http://www.collaboraoffice.com/repos/CollaboraOnline/CODE-ubuntu${CODE} ./" >> /etc/apt/sources.list;
     # apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0C54D189F4BA284D;
     recho $?;
     if [[ $? -eq 0 ]]; then UPDATE=true; fi  
