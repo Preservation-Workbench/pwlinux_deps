@@ -57,17 +57,14 @@ if [ $(cat /etc/apt/sources.list | grep -c "repos/CollaboraOnline/CODE-ubuntu") 
     if [[ $? -eq 0 ]]; then UPDATE=true; fi  
 fi
 
-
-# go install github.com/richardlehane/siegfried/cmd/sf@latest
-
-# if [ $(cat /etc/apt/sources.list | grep -c "https://www.itforarchivists.com/") -eq 0 ]; then    
-#     cecho "CYAN" "Adding Siegfried repo..";
-#     rm /etc/apt/sources.list.d/siegfried.list 2> /dev/null; # In case installed to separate source list
-#     curl -sL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x20F802FE798E6857' | gpg --dearmor > /usr/share/keyrings/siegfried-archive-keyring.gpg;
-#     echo "deb [signed-by=/usr/share/keyrings/siegfried-archive-keyring.gpg] https://www.itforarchivists.com/ buster main" >> /etc/apt/sources.list;
-#     recho $?;
-#     if [[ $? -eq 0 ]]; then UPDATE=true; fi  
-# fi
+if [ $(cat /etc/apt/sources.list | grep -c "https://www.itforarchivists.com/") -eq 0 ]; then    
+    cecho "CYAN" "Adding Siegfried repo..";
+    rm /etc/apt/sources.list.d/siegfried.list 2> /dev/null; # In case installed to separate source list
+    curl -sL 'http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x20F802FE798E6857' | gpg --dearmor > /usr/share/keyrings/siegfried-archive-keyring.gpg;
+    echo "deb [signed-by=/usr/share/keyrings/siegfried-archive-keyring.gpg] https://www.itforarchivists.com/ buster main" >> /etc/apt/sources.list;
+    recho $?;
+    if [[ $? -eq 0 ]]; then UPDATE=true; fi  
+fi
 
 if [[ "$UPDATE" = true ]]; then 
     cecho "CYAN" "Updating repo info..";
@@ -77,11 +74,11 @@ fi
 
 cecho "CYAN" "Installing apt-gettable dependencies..";
 echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections;
-apt-get install -y ttf-mscorefonts-installer pandoc abiword sqlite3 uchardet golang-go \
+apt-get install -y ttf-mscorefonts-installer pandoc abiword sqlite3 uchardet \
 python3-wheel dos2unix ghostscript onlyoffice-desktopeditors onlyoffice-documentbuilder \
 icc-profiles-free clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs \
 clamdscan libclamunrar9 wimtools wkhtmltopdf ruby-dev  imagemagick cabextract fontforge \
-python3-pgmagick graphicsmagick graphviz img2pdf golang coolwsd code-brand;
+python3-pgmagick graphicsmagick graphviz img2pdf golang coolwsd code-brand siegfried;
 recho $?;
 
 if [[ $UPDATE = true ]]; then 
@@ -93,12 +90,6 @@ if [[ $UPDATE = true ]]; then
     # Test: curl --insecure -F "data=@test.docx" http://localhost:9980/lool/convert-to/pdf > out.pdf    
     recho $?;
 fi    
-
-cecho "CYAN" "Install or update Siegfried..";
-go install github.com/richardlehane/siegfried/cmd/sf@latest;
-chmod a+rx /root/go/bin/sf;
-sudo -H -u $OWNER bash -c "/root/go/bin/sf -update;"; 
-recho $?;
 
 cecho "CYAN" "Enable clamav..";
 systemctl enable clamav-daemon;
