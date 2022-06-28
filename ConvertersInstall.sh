@@ -81,7 +81,7 @@ apt-get install -y ttf-mscorefonts-installer pandoc abiword sqlite3 uchardet gol
 python3-wheel dos2unix ghostscript onlyoffice-desktopeditors onlyoffice-documentbuilder \
 icc-profiles-free clamtk tesseract-ocr clamav-daemon clamav-unofficial-sigs \
 clamdscan libclamunrar9 wimtools wkhtmltopdf ruby-dev  imagemagick cabextract fontforge \
-python3-pgmagick graphicsmagick graphviz img2pdf golang coolwsd code-brand siegfried;
+python3-pgmagick graphicsmagick graphviz img2pdf golang coolwsd code-brand;
 recho $?;
 
 if [[ $UPDATE = true ]]; then 
