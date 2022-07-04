@@ -27,7 +27,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 DISTRO=$(lsb_release -sc) # Get codename. Supports uma, focal and jammy
-if [[ "${DISTRO}" != @(uma|focal|jammy) ]]; then
+if [[ "${DISTRO}" != @(uma|ulyana|focal|jammy) ]]; then
     cecho "RED" "Distro not supported. Exiting script.."; exit 1;
 fi     
 
