@@ -1,1 +1,1 @@
-Scripts to create dependency bundles for PWLinux
+Script moved to PWConvert repo
